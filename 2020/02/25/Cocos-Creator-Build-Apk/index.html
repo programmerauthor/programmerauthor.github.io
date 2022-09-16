@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Cocos Creator 打包 Android Apk"><meta name="keywords" content="game,cocoscreator"><meta name="author" content="普通程序员"><meta name="copyright" content="普通程序员"><title>Cocos Creator 打包 Android Apk | 普通程序员</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css?version=1.6.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><meta name="generator" content="Hexo 4.2.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="author-info"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">普通程序员</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">37</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">51</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">51</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">普通程序员</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">首页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">Cocos Creator 打包 Android Apk</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-02-25</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Game/">Game</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Game/Cocos-Creator/">Cocos Creator</a><span class="post-meta__separator">|</span><i class="fa fa-comment-o post-meta__icon" aria-hidden="true"></i><a href="/2020/02/25/Cocos-Creator-Build-Apk/#disqus_thread"><span class="disqus-comment-count" data-disqus-identifier="2020/02/25/Cocos-Creator-Build-Apk/"></span></a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h3 id="本文缘由"><a href="#本文缘由" class="headerlink" title="本文缘由"></a>本文缘由</h3><p>最近国内大批有钱没钱都有闲的人出现，游戏行业持续向好，公司为了过日子也立项了几个游戏项目。</p>
+<p>开始想用Unity引擎，毕竟成熟的收费引擎，3D又是大势所趋，使用体验和技术价值方面都不错。但Unity主要是C#作为脚本语言，考虑到团队的学习成本，很短的开发周期及现有团队技术栈，最终选定 Cocos Creator 引擎进行2D游戏开发切入。</p>
+<p>虽然 Cocos Creator 可以打包编译成多个平台发布，但 Cocos Creator 的Android平台打包一直被诟病异常难用，团队里前端开发居多，作为老本行Android开发程序员，自然担负解决这个问题的任务。</p>
+<h3 id="打包介绍"><a href="#打包介绍" class="headerlink" title="打包介绍"></a>打包介绍</h3><p>Cocos Creator 开发轻量级小游戏，非常强大，可以打包发布到多达十数个平台，如下：</p>
+<p><img src="/images/Cocos-Creator-Build-Apk.assets/image-20200225230742979.png" alt="image-20200225230742979"></p>
+<p>我们的需求是只关注 Android 和 IOS 两个平台的 Native 版本。</p>
+<p>打包流程也非常简单，项目 ——&gt; 构建发布 ——&gt; 配置相关参数，理想情况下点击构建&amp;&amp;编译&amp;&amp;运行 三连，就完成了。</p>
+<p>IOS平台我试了下一键打包体验，分分钟打出一个包来，还是非常理想的。</p>
+<p>然而，理想情况不是总会有，Android平台打包恰恰就是那个非理想情况。</p>
+<h3 id="Android工程打包准备"><a href="#Android工程打包准备" class="headerlink" title="Android工程打包准备"></a>Android工程打包准备</h3><p>Cocos Creator 打包 Android 工程，我大体看了一下，应该是先构建成 Cocos2d-x 工程，再通过NDK打包成 Android APK包。</p>
+<p>很多不了解Android开发的同学对NDK这个东西是比较陌生的，所以经常因为配置各种Android环境，搞得一头雾水。</p>
+<p>Cocos Creator 打包 Android平台的APK，本质上就是通过构建一个Android工程项目，然后再去编译出相应的APK（几乎所有的游戏引擎都是这个路子），只不过这里用到了平时Android应用开发不太常用的NDK。</p>
+<p>所以，准备事项如下：</p>
+<ul>
+<li>Android开发所需环境<ul>
+<li>JDK环境配置</li>
+<li>Android SDK配置</li>
+<li>NDK配置</li>
+</ul>
+</li>
+<li>Cocos2d-x 自带编译工具 Cocos Console 所需环境<ul>
+<li>Python 2.7.5+，<a href="https://www.python.org/downloads/" target="_blank" rel="noopener">下载页</a>，注意不要下载 Python 3.x 版本。</li>
+<li>Windows 下需要安装 Visual Studio 2017 社区版，<a href="https://www.visualstudio.com/downloads/download-visual-studio-vs" target="_blank" rel="noopener">下载页</a></li>
+<li>Mac 下需要安装 Xcode 和命令行工具，<a href="https://developer.apple.com/xcode/download/" target="_blank" rel="noopener">下载页</a></li>
+</ul>
+</li>
+</ul>
+<p>由于逐个讲解配置所需篇幅太多，以上相关环境配置很容易找到相关资料，请按清单逐个配置相关环境即可。</p>
+<blockquote>
+<p>如果实在弄不懂某一项配置，可以留言，需求多的话，我单独开个文章讲相关配置。</p>
+</blockquote>
+<h3 id="Cocos-Creator-配置"><a href="#Cocos-Creator-配置" class="headerlink" title="Cocos Creator 配置"></a>Cocos Creator 配置</h3><p>准备好依赖的开发环境之后，还需要在 Cocos Creator 里配置原生开发环境的路径。</p>
+<ul>
+<li><p>Windows 平台</p>
+<ul>
+<li>文件——&gt;设置——&gt;原生开发环境</li>
+</ul>
+<img src="/images/Cocos-Creator-Build-Apk.assets/image-20200225232623399.png" alt="image-20200225232623399" style="zoom:80%;" />
+</li>
+<li><p>将 Android SDK的根路径填入 <code>Android SDK路径</code></p>
+<ul>
+<li>如：<code>L:\DeveloperTools\android\AndroidStudio\studiosdk</code></li>
+</ul>
+</li>
+<li><p>将 Android NDK的【指定版本】路径填入 <code>NDK路径</code></p>
+<ul>
+<li>如：<code>L:\DeveloperTools\android\AndroidStudio\studiosdk\ndk\19.2.5345600</code></li>
+<li>注意：这里的 <code>19.2.5345600</code> 是指定的 NDK的具体版本路径，官方推荐使用 <code>r17~r19</code> 版本</li>
+</ul>
+</li>
+</ul>
+<h3 id="Android-工程打包问题"><a href="#Android-工程打包问题" class="headerlink" title="Android 工程打包问题"></a>Android 工程打包问题</h3><p>Cocos Creator 打Android平台包，通常出错在 <code>构建&amp;&amp;编译&amp;&amp;运行</code> 三连的 <code>编译</code> 阶段。</p>
+<p>这是由于 Android 工程打包，依赖于 Gradle 等相关配套依赖，这些依赖一般是由 Android Studio 来处理的。</p>
+<p>这里只依靠 Cocos Creator 的这套打包编译，往往不能成功。</p>
+<p>所以，这里我们还要安装Android开发官方开发工具： <code>Android Studio</code>。</p>
+<p>安装好 Android Studio ，使用 Android Studio 打开 Cocos Creator 工程路径下的  <code>build\jsb-link\frameworks\runtime-src\proj.android-studio</code> 目录，这就是一个正常的 Android 工程了。</p>
+<img src="/images/Cocos-Creator-Build-Apk.assets/image-20200225234114546.png" alt="image-20200225234114546" style="zoom:80%;" />
+
+<ul>
+<li>注意：<code>build\jsb-link\frameworks\runtime-src\proj.android-studio</code> 是通过 Cocos Creator 的 <code>构建</code> 选项来生成的。</li>
+<li>如果没有这个路径，需要先到 Cocos Creator 的构建发布页面，执行构建操作。</li>
+</ul>
+<p>通常使用 Android Studio 打开 <code>proj.android-studio</code> 工程后，会自动执行<code>依赖下载</code>操作，这个<code>依赖下载</code> 就是 Cocos Creator 打包不成功的原因！</p>
+<p>有过Android开发经历的同学，应该知道 Android 环境配置的种种奇葩问题，通常都是由于 <code>墙墙墙墙墙墙墙墙...</code> ， Cocos Creator 无法很好的解决这一点。</p>
+<p>配置镜像代理或者各种<code>操作</code> 连上国际网，执行 Build -&gt; Make Project.</p>
+<p><img src="/images/Cocos-Creator-Build-Apk.assets/image-20200225235440443.png" alt="image-20200225235440443"></p>
+<p>静等所有相关配置完成。</p>
+<p>这一过程通常相当漫长，短则三五分钟，长则三五十分钟。需要一点耐心，去打局游戏，喝杯茶吧。</p>
+<p>当 Android Studio 工程不再飘红，操作栏出现 <code>可运行</code> 标志时，离大功告成就只差一步了：</p>
+<p><img src="/images/Cocos-Creator-Build-Apk.assets/image-20200225235725565.png" alt="image-20200225235725565"></p>
+<p>此时，回到 Cocos Creator ，继续执行 <code>编译</code>吧 。</p>
+<p> <code>编译成功</code> 后，apk 安装包存在于 <code>build\jsb-link\frameworks\runtime-src\proj.android-studio\build\outputs\apk-release\xxx-release.apk</code>。</p>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><p>以上只讲了 Cocos Creator 打包 Android APK 碰到的问题，正式上线，还需要有一些<code>签名配置</code>、<code>CPU ABI精简</code>等注意事项，以后再写吧。</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">普通程序员</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://programmerauthor.github.io/2020/02/25/Cocos-Creator-Build-Apk/">https://programmerauthor.github.io/2020/02/25/Cocos-Creator-Build-Apk/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://programmerauthor.github.io">普通程序员</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/game/">game</a><a class="post-meta__tags" href="/tags/cocoscreator/">cocoscreator</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/03/01/cmder-alias/"><i class="fa fa-chevron-left">  </i><span>cmder配置alias别名</span></a></div><div class="next-post pull-right"><a href="/2020/02/05/idea-termial/"><span>Windows下IDEA家族工具配置指定Terminal</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="disqus_thread"></div><script>var unused = null;
+var disqus_config = function () {
+  this.page.url = 'https://programmerauthor.github.io/2020/02/25/Cocos-Creator-Build-Apk/';
+  this.page.identifier = '2020/02/25/Cocos-Creator-Build-Apk/';
+  this.page.title = 'Cocos Creator 打包 Android Apk';
+}
+var d = document, s = d.createElement('script');
+s.src = "https://" + 'programmerauthor' +".disqus.com/embed.js";
+s.setAttribute('data-timestamp', '' + +new Date());
+(d.head || d.body).appendChild(s);</script><script id="dsq-count-scr" src="https://programmerauthor.disqus.com/count.js" async></script></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2022 By 普通程序员</div><div class="framework-info"><span>驱动 - <span>Hexo</span></span><span class="footer-separator">|</span><span>主题 - <span>Melody</span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>
